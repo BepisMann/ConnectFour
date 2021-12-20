@@ -2,16 +2,25 @@
 
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Connect Four Online</title>
     </head>
         
     <body>
-        <main>
-            <p>Time Elasped</p>
+        <header>
+            <div>Time Elasped: 
+                <b> <em id = "timer"> 42:42 </em> </b>
+            </div>
             <p>You're playing as: 
-                <strong> <em id = "color" style="color:rgb(241, 190, 62)">Yellow</em> </strong></p>
-            <p>You're playing against:
-            </p>
+                <strong> <em id = "color" style="color:rgb(241, 190, 62)">Yellow</em> </strong> <br>
+                <b> It's your turn </b> </p>
+            <div>You're playing against:
+                <i> <em id =  "opponent"> Username </em> </i>
+            </div>
+        </header>
+
+        <main>
+            <section id = "board"> <table> Board</table> </section>
         </main>
     </body>    
 </html>
