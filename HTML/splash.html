@@ -9,16 +9,21 @@
         <form action="/game" method="get">
             <button type="submit">PLAY</button>
         </form>
-        <form action="/rules" method="get">
+        <form action="rules.html" method="get">
             <button type="submit">RULES</button>
         </form>
 
-        <input type="text" required placeholder="Username">
+        <div id="UsernameButton">
+            <input type="text" required placeholder="Username">
+            <form method="post">
+                <button type="submit"></button>
+            </form>
+        </div>
 
-        <div class="stats">
-            <el>Statistic #1</el>
-            <el>Statistic #2</el>
-            <el>Statistic #3</el>
+        <div id="stats">
+            <p>Statistic #1</p>
+            <p>Statistic #2</p>
+            <p>Statistic #3</p>
         </div>
     </body>
 </html>
