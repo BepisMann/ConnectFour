@@ -3,6 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>Connect Four Online</title>
+        <style>
+            .yellow {
+                background-color: yellow;
+            }
+            .red {
+                background-color: red;
+            }
+        </style>
     </head>
 
     <body>
@@ -28,6 +36,12 @@
 
         <script src = "javascripts/client.js"></script>
         <script src="javascripts/gameState.js"></script>
+        <script>
+            const state = new GameState();
+            state.addPiece(3);
+            state.addPiece(3);
+            state.addPiece(2);
+        </script>
 
     </body>
 
