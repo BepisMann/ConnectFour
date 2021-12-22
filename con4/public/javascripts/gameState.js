@@ -4,17 +4,21 @@ function piece(color) {
 
 function gameState() {
     this.turn = "red";
+    this.filledCells = [];
 
     this.board = new Array(6);
     for (let i = 0; i < 6; i++){
-        board[i] = new Array(7);
+        this.board[i] = new Array(7);
     }    
 
     function addPiece(column) {
         let i = 0;
-        while (board[i][column] != undefined)
+        while (this.board[i][column] !== undefined)
             i++;
-        board[i][column] = this.turn;
+        this.board[i][column] = this.turn;
+        const cell = document.getElementById(i + ":" + column);
+        cell.innerText = this.turn;
+        cell.className = this.turn;
         if (checkWin()) {
 
         }
@@ -25,4 +29,19 @@ function gameState() {
             }
         }
     }
+
+    function checkWin(row, column) {
+
+    }
+
+    function checkHorizontal
+
+    // function contains(cell) {
+    //     for (let i = 0; i < this.filledCells.length; i++) {
+    //         if (this.filledCells[i] === cell) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 }

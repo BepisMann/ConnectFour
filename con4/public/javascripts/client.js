@@ -1,6 +1,6 @@
-function createBoard() {
+//function createBoard() {
     const table = document.querySelector("section#board > table");
-    table.innerHTML = "";
+    // table.innerText = "";
 
     for (let i = 0; i < 6; i++) {
         let row = document.createElement("tr");
@@ -9,8 +9,9 @@ function createBoard() {
 
             const cell = document.createElement("td");
             cell.id = i + ":" + j;
+            cell.innerText = "color";
             row.appendChild(cell);
         }
         table.appendChild(row);
     }
-}
+//}
