@@ -11,6 +11,10 @@ function GameState() {
 
 
     this.addPiece = function addPiece(column) {
+        //Checks if the column has any space left
+        if (this.board[5][column] !== undefined) {
+            return;
+        }
         let i = 0;
         while (this.board[i][column] !== undefined) {
             i++;
@@ -145,9 +149,9 @@ const state = new GameState();
             cell.innerText = "color";
 
             row.appendChild(cell);
-            cell.addEventListener("click", (e) => {
+            cell.addEventListener("click", () => {
                 state.addPiece(j);
-            }, {once: true});
+            });
         }
         table.appendChild(row);
     }
