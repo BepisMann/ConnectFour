@@ -4,6 +4,7 @@ function piece(color) {
 
 function gameState() {
     this.turn = "red";
+    this.filledCells = [];
 
     this.board = new Array(6);
     for (let i = 0; i < 6; i++){
@@ -46,6 +47,22 @@ function gameState() {
                 return true;
             }
         }
+        return false;
+    }
+
+    function checkVertical(column) {
+        if (column < 3)
+            return false;
+        let result = 0;
+        for (let i = 0; i < 6; i++)
+            if (this.board[i][column] === this.turn) {
+                result++;
+                if (result === 4)
+                    return true;
+            }
+            else {
+                result = 0;
+            }
         return false;
     }
 
