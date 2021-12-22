@@ -4,7 +4,6 @@ function piece(color) {
 
 function gameState() {
     this.turn = "red";
-    this.filledCells = [];
 
     this.board = new Array(6);
     for (let i = 0; i < 6; i++){
@@ -34,7 +33,22 @@ function gameState() {
 
     }
 
-    function checkHorizontal
+    function checkHorizontal(row) {
+        let result = 0;
+        const r = this.board[row];
+        for (let i = 0; i < 7; i++) {
+            if (r[i] === this.turn) {
+                result++;
+            } else {
+                result = 0;
+            }
+            if (result === 4) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // function contains(cell) {
     //     for (let i = 0; i < this.filledCells.length; i++) {

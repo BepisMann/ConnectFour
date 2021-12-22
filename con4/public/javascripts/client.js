@@ -8,7 +8,7 @@
         for (let j = 0; j < 7; j++) {
 
             const cell = document.createElement("td");
-            cell.id = i + ":" + j;
+            cell.id = (5-i) + ":" + j;
             cell.innerText = "color";
             row.appendChild(cell);
         }
