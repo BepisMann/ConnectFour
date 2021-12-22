@@ -31,7 +31,7 @@ function gameState() {
     }
 
     function checkWin(row, column) {
-
+        return checkHorizontal(row) || checkVertical(column) || checkDiagonalLR(row, column) || checkDiagonalRL(row, column);
     }
 
     function checkHorizontal(row) {
@@ -66,6 +66,53 @@ function gameState() {
         return false;
     }
 
+    function checkDiagonalLR(row, column) {
+        let r = row;
+        let c = column;
+        const min = (row < (column)) ? row : (column);
+        r -= min;
+        c -= min;
+
+        let result = 0;
+
+        while (r < 6 && c < 7) {
+            if (this.board[r][c] === this.turn) {
+                result++;
+            } else {
+                result = 0;
+            }
+            if (result === 4) {
+                return true;
+            }
+            r++;
+            c++;
+        }
+        return false;
+    }
+
+    function checkDiagonalRL(row, column) {
+        let r = row;
+        let c = column;
+        const min = (row < (6-column)) ? row : (6-column);
+        r -= min;
+        c += min;
+
+        let result = 0;
+
+        while (r < 6 && c >= 0) {
+            if (this.board[r][c] === this.turn) {
+                result++;
+            } else {
+                result = 0;
+            }
+            if (result === 4) {
+                return true;
+            }
+            r++;
+            c--;
+        }
+        return false;
+    }
 
     // function contains(cell) {
     //     for (let i = 0; i < this.filledCells.length; i++) {
