@@ -1,15 +1,14 @@
-function piece(color) {
-    this.color = color;
-}
-
 function GameState() {
     this.turn = "red";
-    this.filledCells = [];
-
     this.board = new Array(6);
-    for (let i = 0; i < 6; i++){
+
+    for (let i = 0; i < 6; i++) {
         this.board[i] = new Array(7);
-    }    
+    }
+
+
+
+
 
     this.addPiece = function addPiece(column) {
         let i = 0;
@@ -31,8 +30,15 @@ function GameState() {
             }
 
             if (i === 6) {
-                //setColumnInvalid(column);
+                this.setColumnInvalid(column);
             }
+        }
+    };
+
+    this.setColumnInvalid = function setColumnInvalid(column) {
+        for (let i = 0; i < 6; i++) {
+            const cell = document.getElementById(i + ":" + column);
+            cell.replaceWith(cell.cloneNode(true));
         }
     };
 
@@ -120,12 +126,30 @@ function GameState() {
         return false;
     };
 
-    // function contains(cell) {
-    //     for (let i = 0; i < this.filledCells.length; i++) {
-    //         if (this.filledCells[i] === cell) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
+
+
 }
+
+const state = new GameState();
+
+(function setup() {
+    const table = document.querySelector("section#board > table");
+
+    for (let i = 0; i < 6; i++) {
+        let row = document.createElement("tr");
+
+        for (let j = 0; j < 7; j++) {
+
+            const cell = document.createElement("td");
+            cell.id = (5 - i) + ":" + j;
+            cell.innerText = "color";
+
+            row.appendChild(cell);
+            cell.addEventListener("click", (e) => {
+                state.addPiece(j);
+            }, {once: true});
+        }
+        table.appendChild(row);
+    }
+})();
+
