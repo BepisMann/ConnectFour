@@ -1,4 +1,6 @@
 function GameState() {
+    this.redPlayer = null;
+    this.yellowPlayer = null;
     this.turn = "red";
     this.board = new Array(6);
     this.filledSlots = 0;
