@@ -1,6 +1,7 @@
 function GameState() {
     this.turn = "red";
     this.board = new Array(6);
+    this.filledSlots = 0;
 
     for (let i = 0; i < 6; i++) {
         this.board[i] = new Array(7);
@@ -16,12 +17,18 @@ function GameState() {
         while (this.board[i][column] !== undefined) {
             i++;
         }
+        this.filledSlots++;
         this.board[i][column] = this.turn;
         const cell = document.getElementById(i + ":" + column);
         cell.innerText = this.turn;
         cell.className = this.turn;
         if (this.checkWin(i, column)) {
-            console.log("IT WORKSSS!!!")
+            console.log("IT WORKSSS!!!");
+            // handleWin(turn);
+        }
+        else if (this.filledSlots == 42) {
+            console.log("TIE");
+            // handleDraw();
         }
         else {
             if (this.turn === "red") {
