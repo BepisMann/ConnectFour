@@ -6,13 +6,10 @@ function GameState() {
         this.board[i] = new Array(7);
     }
 
-
-
-
-
     this.addPiece = function addPiece(column) {
         //Checks if the column has any space left
         if (this.board[5][column] !== undefined) {
+            alert("This column is full! Please choose another column!");
             return;
         }
         let i = 0;
@@ -32,17 +29,6 @@ function GameState() {
             } else {
                 this.turn = "red";
             }
-
-            if (i === 6) {
-                this.setColumnInvalid(column);
-            }
-        }
-    };
-
-    this.setColumnInvalid = function setColumnInvalid(column) {
-        for (let i = 0; i < 6; i++) {
-            const cell = document.getElementById(i + ":" + column);
-            cell.replaceWith(cell.cloneNode(true));
         }
     };
 
