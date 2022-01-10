@@ -30,6 +30,9 @@ function GameState(socket) {
         //cell.innerText = color;
         cell.className = color;
 
+        const turnCell = document.getElementById("yourTurn");
+        turnCell.innerText = "Opponents turn";
+
         // else {
         //     if (this.turn === "red") {
         //         this.turn = "yellow";
@@ -155,7 +158,7 @@ function GameState(socket) {
 
 (function setup() {
     const table = document.querySelector("section#board > table");
-    const socket = new WebSocket("ws://localhost:3000");
+    const socket = new WebSocket(Setup.WEB_SOCKET_URL);
     const state = new GameState(socket);
 
     //TODO
@@ -177,7 +180,7 @@ function GameState(socket) {
                 state.addPiece(j, state.playerType);
                 const outMsg = Messages.O_ADD_PIECE;
                 outMsg.data = j;
-                state.socket.send(outMsg);
+                state.socket.send(JSON.stringify(outMsg));
             });
         }
         table.appendChild(row);
@@ -201,6 +204,8 @@ function GameState(socket) {
         if (incomingMsg.type === "ADD-A-PIECE") {
             const color = (state.playerType === "RED") ? "YELLOW" : "RED";
             state.updateGame(incomingMsg.data);
+            const turnCell = document.getElementById("yourTurn");
+            turnCell.innerText = "It's your turn";
         }
     }
 })();

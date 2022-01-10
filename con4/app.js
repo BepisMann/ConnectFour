@@ -19,7 +19,9 @@ app.use(express.static(__dirname + "/public"));
 //http.createServer(app).listen(port);
 
 const server = http.createServer(app);
-const wss = new websocket.Server({server})
+const wss = new websocket.Server({ server })
+
+const websockets = {};
 
 let currentGame = new Game(gameStatus.gamesInitialized++);
 let connectionID = 0;
@@ -29,7 +31,7 @@ wss.on("connection", function connection(ws) {
     const con = ws;
     con["id"] = connectionID++;
     const playerType = currentGame.addPlayer(con);
-    websocket[con["id"]] = currentGame;
+    websockets[con["id"]] = currentGame;
 
     console.log(
         `Player ${con["id"]} placed in game ${currentGame.ID} as ${playerType}`
@@ -44,13 +46,13 @@ wss.on("connection", function connection(ws) {
     con.on("message", function incoming(message) {
         const oMsg = JSON.parse(message.toString());
 
-        const gameObj = websocket[con["id"]];
+        const gameObj = websockets[con["id"]];
 
         if (oMsg.type === messages.T_ADD_PIECE) {
             if (gameObj.redPlayer === con) {
-                gameObj.yellowPlayer.send(message);
+                gameObj.yellowPlayer.send(JSON.stringify(message));
             } else {
-                gameObj.redPlayer.send(message);
+                gameObj.redPlayer.send(JSON.stringify(message));
             }
             gameObj.setStatus("piece added");
         }
@@ -67,7 +69,7 @@ wss.on("connection", function connection(ws) {
         console.log(`${con["id"]} disconnected ...`);
 
         if (code === 1001) {
-            const gameObj = websocket[con["id"]];
+            const gameObj = websockets[con["id"]];
 
             if (gameObj.isValidTransition(gameObj.state, "aborted")) {
                 gameObj.setStatus("aborted");
