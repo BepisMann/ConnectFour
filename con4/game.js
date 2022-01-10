@@ -14,46 +14,48 @@ const game = function(gameID) {
         "piece added": 3,
         "red player won": 4,
         "yellow player won": 5,
-        "game was aborted": 6
+        "aborted": 6,
+        "tie": 7
     };
 
     this.transitionMatrix = [
-        [0, 1, 0, 0, 0, 0, 0], //0 players waiting
-        [1, 0, 1, 0, 0, 0, 0], //1 player waiting
-        [0, 0, 0, 1, 0, 0, 1], //2 players joined (When two players join the game automatically starts)
-        [0, 0, 0, 1, 1, 1, 1], //a piece was added
-        [0, 0, 0, 0, 0, 0, 0], //red player won
-        [0, 0, 0, 0, 0, 0, 0], //yellow player won
-        [0, 0, 0, 0, 0, 0, 0] //game aborted
+        [0, 1, 0, 0, 0, 0, 0, 0], //0 players waiting
+        [1, 0, 1, 0, 0, 0, 0, 0], //1 player waiting
+        [0, 0, 0, 1, 0, 0, 1, 0], //2 players joined (When two players join the game automatically starts)
+        [0, 0, 0, 1, 1, 1, 1, 1], //a piece was added
+        [0, 0, 0, 0, 0, 0, 0, 0], //red player won
+        [0, 0, 0, 0, 0, 0, 0, 0], //yellow player won
+        [0, 0, 0, 0, 0, 0, 0, 0], //game aborted
+        [0, 0, 0, 0, 0, 0, 0, 0] //Tie
     ];
 
     this.isValidTransition = function(from, to) {
         let i,j;
 
-        if (!(from in game.transitionStates)) {
+        if (!(from in this.transitionStates)) {
             return false;
         } else {
-            i = game.transitionStates[from];
+            i = this.transitionStates[from];
         }
 
-        if (!(to in game.transitionStates)) {
+        if (!(to in this.transitionStates)) {
             return false;
         } else {
-            j = game.transitionStates[to];
+            j = this.transitionStates[to];
         }
 
-        return game.transitionMatrix[i][j] === 1;
+        return this.transitionMatrix[i][j] === 1;
     };
 
     this.isValidState = function(s) {
-        return s in game.transitionStates;
+        return s in this.transitionStates;
     };
 
     this.setStatus = function(w) {
         if (this.isValidState(w) &&
         this.isValidTransition(this.state, w)) {
             this.state = w;
-            console.log("[STATUS] %s", this.gameState);
+            console.log("[STATUS] %s", this.state);
         } else {
             return new Error(
                 `Impossible status change from ${this.state} to ${w}`
@@ -66,7 +68,7 @@ const game = function(gameID) {
     };
 
     this.addPlayer = function(p) {
-        if (this.state != "0 players joined" && this.state != "1 players joined") {
+        if (this.state !== "0 players joined" && this.state !== "1 players joined") {
             return new Error(
               `Invalid call to addPlayer, current state is ${this.state}`
             );

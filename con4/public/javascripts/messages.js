@@ -1,10 +1,10 @@
 (function (exports) {
    /*
-    * Client to server: Game is complete. The winner is the player sending this message
+    * Client to server: Game is complete.
     */
-    exports.T_GAME_WON_BY = "GAME-WON-BY";
-    exports.O_GAME_WON_BY = {
-        type: exports.T_GAME_WON_BY,
+    exports.T_GAME_END = "GAME-ENDED-BY";
+    exports.O_GAME_END = {
+        type: exports.T_GAME_END,
         data: null,
     };
 
@@ -24,7 +24,7 @@
         type: exports.T_PLAYER_TYPE,
         data: "RED",
     };
-    exports.S_PLAYER_A = JSON.stringify(exports.O_PLAYER_A);
+    exports.S_PLAYER_RED = JSON.stringify(exports.O_PLAYER_RED);
 
    /*
     * Server to client: Set as yellow player.
@@ -33,7 +33,7 @@
         type: exports.T_PLAYER_TYPE,
         data: "YELLOW",
     };
-    exports.S_PLAYER_A = JSON.stringify(exports.O_PLAYER_A);
+    exports.S_PLAYER_YELLOW = JSON.stringify(exports.O_PLAYER_YELLOW);
 
    /*
     * Client to server: Added piece.
