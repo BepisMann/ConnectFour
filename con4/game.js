@@ -56,16 +56,37 @@ const game = function(gameID) {
             console.log("[STATUS] %s", this.gameState);
         } else {
             return new Error(
-                `Impossible status change from ${this.gameState} to ${w}`
+                `Impossible status change from ${this.state} to ${w}`
             );
         }
-    }
+    };
 
     this.hasTwoPlayers = function() {
         return this.state === "2 players joined";
-    }
+    };
 
     this.addPlayer = function(p) {
-        if (this.state)
-    }
+        if (this.state != "0 players joined" && this.state != "1 players joined") {
+            return new Error(
+              `Invalid call to addPlayer, current state is ${this.state}`
+            );
+        }
+
+        const error = this.setStatus("1 players joined");
+        if (error instanceof Error) {
+            this.setStatus("2 players joined");
+        }
+
+        if (this.redPlayer == null) {
+            this.redPlayer = p;
+            return "RED";
+        } else {
+            this.yellowPlayer = p;
+            return "YELLOW";
+        }
+
+    };
+
 };
+
+module.exports = game;
