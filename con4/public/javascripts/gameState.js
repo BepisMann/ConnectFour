@@ -1,9 +1,8 @@
-function GameState() {
-    this.redPlayer = null;
-    this.yellowPlayer = null;
-    this.turn = "red";
+function GameState(socket) {
+    this.playerType = null;
     this.board = new Array(6);
     this.filledSlots = 0;
+    this.socket = socket;
 
     for (let i = 0; i < 6; i++) {
         this.board[i] = new Array(7);
@@ -125,8 +124,6 @@ function GameState() {
         return false;
     };
 
-
-
 }
 
 const state = new GameState();
@@ -150,5 +147,10 @@ const state = new GameState();
         }
         table.appendChild(row);
     }
+
+
+    const socket = new WebSocket(Setup.WEB_SOCKET_URL);
+
+    const state = new GameState(socket);
 })();
 
