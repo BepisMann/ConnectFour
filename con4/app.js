@@ -1,6 +1,6 @@
 const express = require("express");
 const http = require("http");
-const websocket  = require("ws");
+const websocket = require("ws");
 var messages = require("./public/javascripts/messages");
 const indexRouter = require("./routes/index");
 
@@ -19,7 +19,7 @@ app.use(express.static(__dirname + "/public"));
 //http.createServer(app).listen(port);
 
 const server = http.createServer(app);
-const wss = new websocket.WebSocketServer({server})
+const wss = new websocket.Server({server})
 
 let currentGame = new Game(gameStatus.gamesInitialized++);
 let connectionID = 0;
