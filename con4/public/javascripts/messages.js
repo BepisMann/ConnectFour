@@ -44,6 +44,11 @@
         data: null,
     };
 
+    exports.T_TWO_PLAYER = "TWO-PLAYER"
+    exports.O_TWO_PLAYER = {
+        type: exports.T_TWO_PLAYER,
+    };
+
    /*
     * Server to client: Game over with results.
     */

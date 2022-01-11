@@ -40,6 +40,9 @@ wss.on("connection", function connection(ws) {
     con.send(playerType === "RED" ? messages.S_PLAYER_RED : messages.S_PLAYER_YELLOW);
 
     if (currentGame.hasTwoPlayers()) {
+        const msg = messages.O_TWO_PLAYER;
+        currentGame.redPlayer.send(JSON.stringify(msg));
+        currentGame.yellowPlayer.send(JSON.stringify(msg));
         currentGame = new Game(gameStatus.gamesInitialized++);
     }
 
@@ -49,8 +52,9 @@ wss.on("connection", function connection(ws) {
         const gameObj = websockets[con["id"]];
 
         if (oMsg.type === messages.T_ADD_PIECE) {
-            const newMsg = messages.T_ADD_PIECE;
-            newMsg.data = message.data;
+            const newMsg = messages.O_ADD_PIECE;
+            newMsg.data = oMsg.data;
+            console.log("Server msg data: " + oMsg.data);
             if (gameObj.redPlayer === con) {
                 gameObj.yellowPlayer.send(JSON.stringify(newMsg));
             } else {
@@ -59,10 +63,11 @@ wss.on("connection", function connection(ws) {
             gameObj.setStatus("piece added");
         }
         if (oMsg.type === messages.T_GAME_END) {
-            const msg = JSON.parse(message);
+            const msg = oMsg;
             msg.type = messages.T_GAME_OVER;
-            gameObj.redPlayer.send(msg);
-            gameObj.yellowPlayer.send(msg);
+            msg.data = oMsg.data;
+            gameObj.redPlayer.send(JSON.stringify(msg));
+            gameObj.yellowPlayer.send(JSON.stringify(msg));
             gameStatus.gamesPlayed++;
         }
     });

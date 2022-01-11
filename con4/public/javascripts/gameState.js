@@ -9,6 +9,7 @@ function GameState(socket) {
     this.board = new Array(6);
     this.filledSlots = 0;
     this.socket = socket;
+    this.turn = false;
 
     for (let i = 0; i < 6; i++) {
         this.board[i] = new Array(7);
@@ -27,6 +28,7 @@ function GameState(socket) {
         this.filledSlots++;
         this.board[i][column] = color;
         const cell = document.getElementById(i + ":" + column);
+        console.log(cell);
         //cell.innerText = color;
         cell.className = color;
 
@@ -129,7 +131,12 @@ function GameState(socket) {
     this.updateGame = function updateGame(column) {
         const color = (this.playerType === "RED") ? "YELLOW" : "RED"
         this.addPiece(column, color);
-
+        let i = 0;
+        while (this.board[i][column] !== undefined) {
+            i++;
+        }
+        i--;
+        console.log("Check win check 2 i: " + i);
         if (this.checkWin(i, column, color)) {
             console.log("IT WORKSSS!!!");
             this.handleWin((this.playerType === "RED") ? "YELLOW" : "RED");
@@ -141,9 +148,12 @@ function GameState(socket) {
     }
 
     this.handleWin = function handleWin(color) {
+
         const outMsg = Messages.O_GAME_END;
         outMsg.data = color;
+        //console.log("Handle win check");
         this.socket.send(JSON.stringify(outMsg));
+        //console.log("Handle win check 2");
     }
 
     this.handleDraw = function handleDraw() {
@@ -152,12 +162,36 @@ function GameState(socket) {
         this.socket.send(JSON.stringify(outMsg));
     }
 
+    this.generateBoard = function generateBoard() {
+        const table = document.querySelector("section#board > table");
+        for (let i = 0; i < 6; i++) {
+            let row = document.createElement("tr");
+
+            for (let j = 0; j < 7; j++) {
+
+                const cell = document.createElement("td");
+                cell.id = (5 - i) + ":" + j;
+                cell.innerText = "color";
+
+                row.appendChild(cell);
+                cell.addEventListener("click", () => {
+                    this.addPiece(j, this.playerType);
+                    const outMsg = Messages.O_ADD_PIECE;
+                    outMsg.data = j;
+                    this.socket.send(JSON.stringify(outMsg));
+                    console.log("MSG data: " + outMsg.data);
+                });
+            }
+            table.appendChild(row);
+        }
+    }
+
 }
 
 //const state = new GameState();
 
 (function setup() {
-    const table = document.querySelector("section#board > table");
+
     const socket = new WebSocket(Setup.WEB_SOCKET_URL);
     const state = new GameState(socket);
 
@@ -166,26 +200,7 @@ function GameState(socket) {
      * Make the board generate after two players connected
      */
 
-    for (let i = 0; i < 6; i++) {
-        let row = document.createElement("tr");
 
-        for (let j = 0; j < 7; j++) {
-
-            const cell = document.createElement("td");
-            cell.id = (5 - i) + ":" + j;
-            cell.innerText = "color";
-
-            row.appendChild(cell);
-            cell.addEventListener("click", () => {
-                state.addPiece(j, state.playerType);
-                const outMsg = Messages.O_ADD_PIECE;
-                outMsg.data = j;
-                socket.send(JSON.stringify(outMsg));
-                console.log(outMsg.data);
-            });
-        }
-        table.appendChild(row);
-    }
 
     socket.onmessage = function (event) {
         let incomingMsg = JSON.parse(event.data);
@@ -196,17 +211,34 @@ function GameState(socket) {
             if (state.playerType === "YELLOW") {
                 field.innerText = "Yellow";
                 field.className = "Yellow";
+                const turnCell = document.getElementById("yourTurn");
+                turnCell.innerText = "Opponents turn";
             } else {
                 field.innerText = "Red";
-                field.className = "Red"
+                field.className = "Red";
+                state.turn = true;
             }
         }
 
         if (incomingMsg.type === Messages.T_ADD_PIECE) {
             const color = (state.playerType === "RED") ? "YELLOW" : "RED";
+            console.log("Message data: " + incomingMsg.data);
             state.updateGame(incomingMsg.data);
             const turnCell = document.getElementById("yourTurn");
             turnCell.innerText = "It's your turn";
+        }
+
+        if (incomingMsg.type === Messages.T_TWO_PLAYER) {
+            state.generateBoard();
+        }
+
+        if (incomingMsg.type === Messages.T_GAME_OVER) {
+            const turnCell = document.getElementById("yourTurn");
+            if (incomingMsg.data === state.playerType) {
+                turnCell.innerText = "Congrats you won!";
+            } else {
+                turnCell.innerText = "LOSERRRRR!"
+            }
         }
     }
 })();
