@@ -180,7 +180,8 @@ function GameState(socket) {
                 state.addPiece(j, state.playerType);
                 const outMsg = Messages.O_ADD_PIECE;
                 outMsg.data = j;
-                state.socket.send(JSON.stringify(outMsg));
+                socket.send(JSON.stringify(outMsg));
+                console.log(outMsg.data);
             });
         }
         table.appendChild(row);
@@ -201,7 +202,7 @@ function GameState(socket) {
             }
         }
 
-        if (incomingMsg.type === "ADD-A-PIECE") {
+        if (incomingMsg.type === Messages.T_ADD_PIECE) {
             const color = (state.playerType === "RED") ? "YELLOW" : "RED";
             state.updateGame(incomingMsg.data);
             const turnCell = document.getElementById("yourTurn");

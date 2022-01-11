@@ -49,10 +49,12 @@ wss.on("connection", function connection(ws) {
         const gameObj = websockets[con["id"]];
 
         if (oMsg.type === messages.T_ADD_PIECE) {
+            const newMsg = messages.T_ADD_PIECE;
+            newMsg.data = message.data;
             if (gameObj.redPlayer === con) {
-                gameObj.yellowPlayer.send(JSON.stringify(message));
+                gameObj.yellowPlayer.send(JSON.stringify(newMsg));
             } else {
-                gameObj.redPlayer.send(JSON.stringify(message));
+                gameObj.redPlayer.send(JSON.stringify(newMsg));
             }
             gameObj.setStatus("piece added");
         }
