@@ -3,35 +3,24 @@
     <head>
         <meta charset="UTF-8">
         <title>Connect Four Online</title>
-        <style>
-            .YELLOW {
-                background-color: yellow;
-            }
-            .RED {
-                background-color: red;
-            }
-
-            #board {
-                cursor: pointer;
-                user-select: none;
-            }
-        </style>
+        <link rel="stylesheet" href="stylesheets/gameScreen.css">
     </head>
 
     <body>
         <header>
-            <div id = "topLeft">Average time per piece:
-                <b> <div id = "Average time per piece"> 0 </div> </b>
-            </div>
-            <br>
-            <div id = "topMiddle">You're playing as: 
-                <!--For now we have colour here, but we will do it properly in CSS-->
-                <strong> <em id = "color" style="color:rgb(241, 190, 62)"> Yellow </em> </strong> <br>
-                <b id = "yourTurn"> Waiting for an opponent! </b> 
-            </div>
-            <br>
-            <div id = "topRight">You're playing against:
-                <i> <div id = "opponent"> Username </div> </i>
+            <div id="topBar">
+                <div id = "topLeft">Average time per piece:
+                    <b> <div id = "Average time per piece"> 0 </div> </b>
+                </div>
+                <br>
+                <div id = "topMiddle">You're playing as:
+                    <!--For now we have colour here, but we will do it properly in CSS-->
+                    <strong> <em id = "color"> Yellow </em> </strong> <br>
+                </div>
+                <div id="topRight">
+                    <b id = "yourTurn"> Waiting for an opponent! </b>
+                </div>
+                <br>
             </div>
         </header>
 

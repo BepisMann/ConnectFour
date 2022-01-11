@@ -1,0 +1,25 @@
+@import "style.css";
+
+.YELLOW {
+    background-color: yellow;
+}
+.RED {
+    background-color: red;
+}
+
+#board {
+    cursor: pointer;
+    user-select: none;
+}
+
+.Red {
+    color: rgb(208, 64, 60);
+}
+
+.Yellow {
+    color: rgb(241, 190, 62);
+}
+
+header {
+    display: inline;
+}
