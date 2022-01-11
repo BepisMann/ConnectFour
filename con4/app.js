@@ -84,6 +84,8 @@ wss.on("connection", function connection(ws) {
             }
 
             try {
+                let msg = messages.O_GAME_ABORTED;
+                gameObj.redPlayer.send(JSON.stringify(msg));
                 gameObj.redPlayer.close();
                 gameObj.redPlayer = null;
             } catch (e) {
@@ -91,6 +93,8 @@ wss.on("connection", function connection(ws) {
             }
 
             try {
+                let msg = messages.O_GAME_ABORTED;
+                gameObj.yellowPlayer.send(JSON.stringify(msg));
                 gameObj.yellowPlayer.close();
                 gameObj.yellowPlayer = null;
             } catch (e) {

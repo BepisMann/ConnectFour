@@ -5,6 +5,8 @@
 //import {O_ADD_PIECE, T_PLAYER_TYPE, O_GAME_END} from "./messages";
 
 function GameState(socket) {
+    this.minutes = 0;
+    this.seconds = 0;
     this.playerType = null;
     this.board = new Array(6);
     this.filledSlots = 0;
@@ -17,6 +19,9 @@ function GameState(socket) {
 
     this.addPiece = function addPiece(column, color) {
         //Checks if the column has any space left
+        if (this.turn === false) {
+            return;
+        }
         if (this.board[5][column] !== undefined) {
             alert("This column is full! Please choose another column!");
             return;
@@ -34,6 +39,7 @@ function GameState(socket) {
 
         const turnCell = document.getElementById("yourTurn");
         turnCell.innerText = "Opponents turn";
+        this.turn = false;
 
         // else {
         //     if (this.turn === "red") {
@@ -129,13 +135,18 @@ function GameState(socket) {
     };
 
     this.updateGame = function updateGame(column) {
+        this.turn = true;
         const color = (this.playerType === "RED") ? "YELLOW" : "RED"
         this.addPiece(column, color);
+        this.turn = true;
         let i = 0;
         while (this.board[i][column] !== undefined) {
+            if (i === 5)
+                break;
             i++;
         }
-        i--;
+        if (this.board[i][column] === undefined)
+            i--;
         console.log("Check win check 2 i: " + i);
         if (this.checkWin(i, column, color)) {
             console.log("IT WORKSSS!!!");
@@ -175,11 +186,13 @@ function GameState(socket) {
 
                 row.appendChild(cell);
                 cell.addEventListener("click", () => {
-                    this.addPiece(j, this.playerType);
-                    const outMsg = Messages.O_ADD_PIECE;
-                    outMsg.data = j;
-                    this.socket.send(JSON.stringify(outMsg));
-                    console.log("MSG data: " + outMsg.data);
+                    if (this.turn === true) {
+                        this.addPiece(j, this.playerType);
+                        const outMsg = Messages.O_ADD_PIECE;
+                        outMsg.data = j;
+                        this.socket.send(JSON.stringify(outMsg));
+                        console.log("MSG data: " + outMsg.data);
+                    }
                 });
             }
             table.appendChild(row);
@@ -206,12 +219,11 @@ function GameState(socket) {
         let incomingMsg = JSON.parse(event.data);
         if (incomingMsg.type === Messages.T_PLAYER_TYPE) {
             state.playerType = incomingMsg.data;
-
+            const turnCell = document.getElementById("yourTurn");
             const field = document.getElementById("color");
             if (state.playerType === "YELLOW") {
                 field.innerText = "Yellow";
                 field.className = "Yellow";
-                const turnCell = document.getElementById("yourTurn");
                 turnCell.innerText = "Opponents turn";
             } else {
                 field.innerText = "Red";
@@ -230,15 +242,29 @@ function GameState(socket) {
 
         if (incomingMsg.type === Messages.T_TWO_PLAYER) {
             state.generateBoard();
+            if (state.playerType === "RED") {
+                const turnCell = document.getElementById("yourTurn");
+                turnCell.innerText = "Game has started! It's your turn!";
+            }
         }
 
         if (incomingMsg.type === Messages.T_GAME_OVER) {
             const turnCell = document.getElementById("yourTurn");
-            if (incomingMsg.data === state.playerType) {
+            state.turn = false;
+            if (incomingMsg.data === "TIE") {
+                turnCell.innerText = "It's a TIE.";
+            } else if (incomingMsg.data === state.playerType) {
                 turnCell.innerText = "Congrats you won!";
             } else {
                 turnCell.innerText = "LOSERRRRR!"
             }
+        }
+
+        if (incomingMsg.type === "GAME-ABORTED") {
+            alert("Opponent has disconnected! Please go back to the home screen if you want to play again!");
+            const turnCell = document.getElementById("yourTurn");
+            turnCell.innerText = "Game Over - Opponent disconnected!";
+            state.turn = false;
         }
     }
 })();
