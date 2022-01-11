@@ -4,12 +4,14 @@ const websocket = require("ws");
 var messages = require("./public/javascripts/messages");
 const indexRouter = require("./routes/index");
 
-const gameStatus = require("./statTracker");
+const gameStats = require("./statTracker");
 const Game = require("./game");
 
 
 const port = process.argv[2];
 const app = express();
+
+app.set("view engine", "ejs");
 
 app.get("/play", indexRouter);
 app.get("/", indexRouter);
@@ -23,7 +25,7 @@ const wss = new websocket.Server({ server })
 
 const websockets = {};
 
-let currentGame = new Game(gameStatus.gamesInitialized++);
+let currentGame = new Game(gameStats.gamesInitialized++);
 let connectionID = 0;
 
 wss.on("connection", function connection(ws) {
@@ -32,6 +34,7 @@ wss.on("connection", function connection(ws) {
     con["id"] = connectionID++;
     const playerType = currentGame.addPlayer(con);
     websockets[con["id"]] = currentGame;
+    gameStats.playersOnline++;
 
     console.log(
         `Player ${con["id"]} placed in game ${currentGame.ID} as ${playerType}`
@@ -43,7 +46,7 @@ wss.on("connection", function connection(ws) {
         const msg = messages.O_TWO_PLAYER;
         currentGame.redPlayer.send(JSON.stringify(msg));
         currentGame.yellowPlayer.send(JSON.stringify(msg));
-        currentGame = new Game(gameStatus.gamesInitialized++);
+        currentGame = new Game(gameStats.gamesInitialized++);
     }
 
     con.on("message", function incoming(message) {
@@ -60,6 +63,7 @@ wss.on("connection", function connection(ws) {
             } else {
                 gameObj.redPlayer.send(JSON.stringify(newMsg));
             }
+            gameStats.totalPieces++;
             gameObj.setStatus("piece added");
         }
         if (oMsg.type === messages.T_GAME_END) {
@@ -68,19 +72,22 @@ wss.on("connection", function connection(ws) {
             msg.data = oMsg.data;
             gameObj.redPlayer.send(JSON.stringify(msg));
             gameObj.yellowPlayer.send(JSON.stringify(msg));
-            gameStatus.gamesPlayed++;
+            // gameStats.gamesPlayed++;
+            // gameStats.averagePieces = (gameStats.totalPieces*1.00/gameStats.gamesPlayed).toFixed(2);
         }
     });
 
     con.on("close", function (code) {
         console.log(`${con["id"]} disconnected ...`);
 
+        gameStats.playersOnline--;
         if (code === 1001) {
             const gameObj = websockets[con["id"]];
 
             if (gameObj.isValidTransition(gameObj.state, "aborted")) {
                 gameObj.setStatus("aborted");
-                gameStatus.gamesPlayed++;
+                gameStats.gamesPlayed++;
+                gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
             }
 
             try {

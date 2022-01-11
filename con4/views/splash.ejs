@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8">
+        <title>Game</title>
+    </head>
+    <body>
+        <h1>Connect 4</h1>
+        <form action="/play" method="get">
+            <button type="submit">PLAY</button>
+        </form>
+        <form action="/rules" method="get">
+            <button type="submit">RULES</button>
+        </form>
+
+
+        <div id="stats">
+            <p>Players online: <%= playersOnline%></p>
+            <p>Average pieces per game: <%= averagePieces%></p>
+            <p>Total games played: <%= gamesPlayed%></p>
+        </div>
+
+        <script src="javascripts/checkResolution.js"></script>
+    </body>
+</html>

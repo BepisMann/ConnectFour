@@ -5,8 +5,8 @@
 //import {O_ADD_PIECE, T_PLAYER_TYPE, O_GAME_END} from "./messages";
 
 function GameState(socket) {
-    this.minutes = 0;
-    this.seconds = 0;
+    this.totalSeconds = 0;
+    this.currentTime = 0;
     this.playerType = null;
     this.board = new Array(6);
     this.filledSlots = 0;
@@ -40,6 +40,14 @@ function GameState(socket) {
         const turnCell = document.getElementById("yourTurn");
         turnCell.innerText = "Opponents turn";
         this.turn = false;
+
+        this.totalSeconds = Date.now()-this.currentTime;
+        const timeCell = document.getElementById("Average time per piece");
+        if (this.filledSlots === 0) {
+            timeCell.innerText = 0;
+        } else {
+            timeCell.innerText = ((this.totalSeconds) / ((this.filledSlots) * 1000)).toFixed(2);
+        }
 
         // else {
         //     if (this.turn === "red") {
@@ -192,6 +200,8 @@ function GameState(socket) {
                         outMsg.data = j;
                         this.socket.send(JSON.stringify(outMsg));
                         console.log("MSG data: " + outMsg.data);
+
+
                     }
                 });
             }
@@ -246,6 +256,7 @@ function GameState(socket) {
                 const turnCell = document.getElementById("yourTurn");
                 turnCell.innerText = "Game has started! It's your turn!";
             }
+            state.currentTime = Date.now();
         }
 
         if (incomingMsg.type === Messages.T_GAME_OVER) {
