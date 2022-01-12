@@ -6,6 +6,7 @@ const indexRouter = require("./routes/index");
 
 const gameStats = require("./statTracker");
 const Game = require("./game");
+const { gamesPlayed } = require("./statTracker");
 
 
 const port = process.argv[2];
@@ -91,7 +92,8 @@ wss.on("connection", function connection(ws) {
                 gameObj.setStatus("aborted");
                 websockets[con["id"]] = currentGame;
                 currentGame = new Game(gameStats.gamesInitialized++);
-                gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
+                if (gamesPlayed !== 0)
+                    gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
             }
 
             try {
