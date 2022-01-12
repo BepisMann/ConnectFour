@@ -87,6 +87,9 @@ wss.on("connection", function connection(ws) {
             if (gameObj.isValidTransition(gameObj.state, "aborted")) {
                 gameObj.setStatus("aborted");
                 gameStats.gamesPlayed++;
+                websockets[con["id"]] = currentGame;
+                currentGame = new Game(gameStats.gamesInitialized++);
+
                 gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
             }
 

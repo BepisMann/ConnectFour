@@ -20,7 +20,7 @@ const game = function(gameID) {
 
     this.transitionMatrix = [
         [0, 1, 0, 0, 0, 0, 0, 0], //0 players waiting
-        [1, 0, 1, 0, 0, 0, 0, 0], //1 player waiting
+        [1, 0, 1, 0, 0, 0, 1, 0], //1 player waiting
         [0, 0, 0, 1, 0, 0, 1, 0], //2 players joined (When two players join the game automatically starts)
         [0, 0, 0, 1, 1, 1, 1, 1], //a piece was added
         [0, 0, 0, 0, 0, 0, 0, 0], //red player won
