@@ -180,7 +180,8 @@ function GameState(socket) {
     }
 
     this.generateBoard = function generateBoard() {
-        const table = document.querySelector("section#board > table");
+        const section = document.querySelector("section#board");
+        const table = document.createElement("table");
         for (let i = 0; i < 6; i++) {
             let row = document.createElement("tr");
 
@@ -188,7 +189,7 @@ function GameState(socket) {
 
                 const cell = document.createElement("td");
                 cell.id = (5 - i) + ":" + j;
-                cell.innerText = "color";
+                //cell.innerText = "color";
 
                 row.appendChild(cell);
                 cell.addEventListener("click", () => {
@@ -205,6 +206,7 @@ function GameState(socket) {
             }
             table.appendChild(row);
         }
+        section.appendChild(table);
     }
 
 }

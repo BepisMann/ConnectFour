@@ -1,10 +1,20 @@
 @import "style.css";
 
 .YELLOW {
-    background-color: yellow;
+    background-image: url("../images/VaseIcon.png");
+    background-size: 55%;
+    background-color: var(--TUDYellow);
+    background-repeat: no-repeat;
+    background-position-x: 18px;
+    background-position-y: 1px;
 }
 .RED {
-    background-color: red;
+    background-image: url("../images/ChurchIcon.png");
+    background-size: 70%;
+    background-color: var(--TUDRed);
+    background-repeat: no-repeat;
+    background-position-x: 10px;
+    background-position-y: 5px;
 }
 
 #board {
@@ -24,8 +34,41 @@ header {
     display: inline;
 }
 
-#board {
+table {
     position: absolute;
-    left: 40%;
+    left: calc(50% - 350px);
+    top: 35%;
     background-color: var(--TUDBlue);
+    border-radius: 30px;
+    width: 700px;
+    height: 600px;
+    table-layout: fixed;
+    padding: 40px;
+}
+
+td {
+    background-color: white;
+    border-radius: 50%;
+    border: 3px black solid;
+}
+
+tr {
+    margin: 20px;
+}
+
+#topBar {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    grid-template-rows: 100px;
+    position: absolute;
+    top: 40px;
+    width: 99%;
+    text-align: center;
+    font-size: 150%;
+}
+
+#color {
+    font-weight: bold;
+    font-size: 160%;
+    -webkit-text-stroke: 1px black;
 }
