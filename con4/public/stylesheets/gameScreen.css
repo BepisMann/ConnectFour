@@ -13,11 +13,11 @@
 }
 
 .Red {
-    color: rgb(208, 64, 60);
+    color: var(--TUDRed);
 }
 
 .Yellow {
-    color: rgb(241, 190, 62);
+    color: var(--TUDYellow);
 }
 
 header {

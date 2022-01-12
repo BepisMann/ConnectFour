@@ -1,3 +1,11 @@
+:root {
+  --TUDBlue: rgb(0,166,214);
+  --TUDYellow: rgb(241,190,62);
+  --TUDRed: rgb(208,64,60);
+}
+
 body {
   background-image: url("../images/TUD campus blur.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
