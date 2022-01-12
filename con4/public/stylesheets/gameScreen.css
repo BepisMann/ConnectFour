@@ -7,6 +7,9 @@
     background-repeat: no-repeat;
     background-position-x: 18px;
     background-position-y: 1px;
+    animation-name: yellowPieceDrop;
+    animation-duration: 1s;
+    animation-iteration-count: 3;
 }
 .RED {
     background-image: url("../images/ChurchIcon.png");
@@ -15,6 +18,25 @@
     background-repeat: no-repeat;
     background-position-x: 10px;
     background-position-y: 5px;
+    animation-name: redPieceDrop;
+    animation-duration: 1s;
+    animation-iteration-count: 3;
+}
+
+#yourTurn:hover::after {
+    content: "You found an easter egg!";
+}
+
+@keyframes redPieceDrop {
+    0% {background-color: var(--TUDRed);}
+    50% {background-color: #932928;}
+    100% {background-color: var(--TUDRed);}
+}
+
+@keyframes yellowPieceDrop {
+    0% {background-color: var(--TUDYellow);}
+    50% {background-color: #bb9621;}
+    100% {background-color: var(--TUDYellow);}
 }
 
 #board {

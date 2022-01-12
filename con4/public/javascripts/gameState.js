@@ -267,7 +267,7 @@ function GameState(socket) {
             } else if (incomingMsg.data === state.playerType) {
                 turnCell.innerText = "Congrats you won!";
             } else {
-                turnCell.innerText = "LOSERRRRR!"
+                turnCell.innerText = "You lost :("
             }
         }
 
