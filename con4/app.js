@@ -84,12 +84,13 @@ wss.on("connection", function connection(ws) {
         if (code === 1001) {
             const gameObj = websockets[con["id"]];
 
+            if (gameObj.state !== "1 players joined")
+                gameStats.gamesPlayed++;
+
             if (gameObj.isValidTransition(gameObj.state, "aborted")) {
                 gameObj.setStatus("aborted");
-                gameStats.gamesPlayed++;
                 websockets[con["id"]] = currentGame;
                 currentGame = new Game(gameStats.gamesInitialized++);
-
                 gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
             }
 
