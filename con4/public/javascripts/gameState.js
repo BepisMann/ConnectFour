@@ -79,8 +79,6 @@ function GameState(socket) {
     };
 
     this.checkVertical = function checkVertical(column, color) {
-        if (column < 3)
-            return false;
         let result = 0;
         for (let i = 0; i < 6; i++)
             if (this.board[i][column] === color) {
