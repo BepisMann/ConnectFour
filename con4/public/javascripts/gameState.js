@@ -27,7 +27,6 @@ function GameState(socket) {
         this.filledSlots++;
         this.board[i][column] = color;
         const cell = document.getElementById(i + ":" + column);
-        console.log(cell);
         cell.className = color;
 
         const turnCell = document.getElementById("yourTurn");
@@ -136,15 +135,13 @@ function GameState(socket) {
                 break;
             i++;
         }
-        if (this.board[i][column] === undefined)
+        if (this.board[i][column] === undefined) {
             i--;
-        console.log("Check win check 2 i: " + i);
+        }
         if (this.checkWin(i, column, color)) {
-            console.log("IT WORKSSS!!!");
             this.handleWin((this.playerType === "RED") ? "YELLOW" : "RED");
         }
         else if (this.filledSlots === 42) {
-            console.log("TIE");
             this.handleDraw();
         }
     }
@@ -180,9 +177,6 @@ function GameState(socket) {
                         const outMsg = Messages.O_ADD_PIECE;
                         outMsg.data = j;
                         this.socket.send(JSON.stringify(outMsg));
-                        console.log("MSG data: " + outMsg.data);
-
-
                     }
                 });
             }
