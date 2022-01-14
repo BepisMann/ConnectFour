@@ -1,9 +1,3 @@
-//const Setup = require("config");
-
-
-
-//import {O_ADD_PIECE, T_PLAYER_TYPE, O_GAME_END} from "./messages";
-
 function GameState(socket) {
     this.totalSeconds = 0;
     this.currentTime = 0;
@@ -34,7 +28,6 @@ function GameState(socket) {
         this.board[i][column] = color;
         const cell = document.getElementById(i + ":" + column);
         console.log(cell);
-        //cell.innerText = color;
         cell.className = color;
 
         const turnCell = document.getElementById("yourTurn");
@@ -48,14 +41,6 @@ function GameState(socket) {
         } else {
             timeCell.innerText = ((this.totalSeconds) / ((this.filledSlots) * 1000)).toFixed(2);
         }
-
-        // else {
-        //     if (this.turn === "red") {
-        //         this.turn = "yellow";
-        //     } else {
-        //         this.turn = "red";
-        //     }
-        // }
     };
 
     this.checkWin = function checkWin(row, column, color) {
@@ -168,9 +153,7 @@ function GameState(socket) {
 
         const outMsg = Messages.O_GAME_END;
         outMsg.data = color;
-        //console.log("Handle win check");
         this.socket.send(JSON.stringify(outMsg));
-        //console.log("Handle win check 2");
     }
 
     this.handleDraw = function handleDraw() {
@@ -189,7 +172,6 @@ function GameState(socket) {
 
                 const cell = document.createElement("td");
                 cell.id = (5 - i) + ":" + j;
-                //cell.innerText = "color";
 
                 row.appendChild(cell);
                 cell.addEventListener("click", () => {
@@ -210,8 +192,6 @@ function GameState(socket) {
     }
 
 }
-
-//const state = new GameState();
 
 (function setup() {
 
@@ -243,8 +223,6 @@ function GameState(socket) {
         }
 
         if (incomingMsg.type === Messages.T_ADD_PIECE) {
-            const color = (state.playerType === "RED") ? "YELLOW" : "RED";
-            console.log("Message data: " + incomingMsg.data);
             state.updateGame(incomingMsg.data);
             const turnCell = document.getElementById("yourTurn");
             turnCell.innerText = "It's your turn";

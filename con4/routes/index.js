@@ -3,11 +3,6 @@ var router = express.Router();
 
 const gameStats = require("../statTracker");
 
-// /* GET home page. */
-// router.get('/Game', function(req, res) {
-//   res.render('index', { title: 'Express' });
-// });
-
 router.get("/", function(req, res) {
   res.render("splash.ejs", {
     gamesPlayed: gameStats.gamesPlayed,

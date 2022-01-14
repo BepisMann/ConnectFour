@@ -19,7 +19,6 @@ app.get("/", indexRouter);
 app.get("/rules", indexRouter);
 
 app.use(express.static(__dirname + "/public"));
-//http.createServer(app).listen(port);
 
 const server = http.createServer(app);
 const wss = new websocket.Server({ server })
@@ -73,8 +72,6 @@ wss.on("connection", function connection(ws) {
             msg.data = oMsg.data;
             gameObj.redPlayer.send(JSON.stringify(msg));
             gameObj.yellowPlayer.send(JSON.stringify(msg));
-            // gameStats.gamesPlayed++;
-            // gameStats.averagePieces = (gameStats.totalPieces*1.00/gameStats.gamesPlayed).toFixed(2);
         }
     });
 

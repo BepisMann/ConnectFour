@@ -1,5 +1,3 @@
-const websocket = require("ws");
-
 const game = function(gameID) {
     this.redPlayer = null;
     this.yellowPlayer = null;
