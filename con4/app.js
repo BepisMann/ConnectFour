@@ -68,10 +68,15 @@ wss.on("connection", function connection(ws) {
             const msg = oMsg;
             msg.type = messages.T_GAME_OVER;
             msg.data = oMsg.data;
+            if(oMsg.data === "RED") {
+                gameObj.setStatus("red player won");
+            } else if (oMsg.data === "YELLOW") {
+                gameObj.setStatus("yellow player won");
+            } else {
+                gameObj.setStatus("tie");
+            }
             gameObj.redPlayer.send(JSON.stringify(msg));
             gameObj.yellowPlayer.send(JSON.stringify(msg));
-            if (gameStats.gamesPlayed !== 0)
-                gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
         }
     });
 
@@ -85,12 +90,14 @@ wss.on("connection", function connection(ws) {
             if (gameObj.state !== "1 players joined")
                 gameStats.gamesPlayed++;
 
+            if (gameStats.gamesPlayed !== 0)
+                gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
+        
+
             if (gameObj.isValidTransition(gameObj.state, "aborted")) {
                 gameObj.setStatus("aborted");
                 websockets[con["id"]] = currentGame;
                 currentGame = new Game(gameStats.gamesInitialized++);
-                if (gameStats.gamesPlayed !== 0)
-                    gameStats.averagePieces = (gameStats.totalPieces/gameStats.gamesPlayed).toFixed(2);
             }
 
             try {
