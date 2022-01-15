@@ -12,10 +12,10 @@ function GameState(socket) {
     }
 
     this.addPiece = function addPiece(column, color) {
-        //Checks if the column has any space left
         if (this.turn === false) {
             return;
         }
+        //Checks if the column has any space left
         if (this.board[5][column] !== undefined) {
             alert("This column is full! Please choose another column!");
             return;
@@ -191,13 +191,6 @@ function GameState(socket) {
 
     const socket = new WebSocket(Setup.WEB_SOCKET_URL);
     const state = new GameState(socket);
-
-    //TODO
-    /**
-     * Make the board generate after two players connected
-     */
-
-
 
     socket.onmessage = function (event) {
         let incomingMsg = JSON.parse(event.data);

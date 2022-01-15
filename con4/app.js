@@ -57,7 +57,6 @@ wss.on("connection", function connection(ws) {
         if (oMsg.type === messages.T_ADD_PIECE) {
             const newMsg = messages.O_ADD_PIECE;
             newMsg.data = oMsg.data;
-            console.log("Server msg data: " + oMsg.data);
             if (gameObj.redPlayer === con) {
                 gameObj.yellowPlayer.send(JSON.stringify(newMsg));
             } else {

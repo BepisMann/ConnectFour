@@ -24,7 +24,7 @@ const game = function(gameID) {
         [0, 0, 0, 0, 0, 0, 0, 0], //red player won
         [0, 0, 0, 0, 0, 0, 0, 0], //yellow player won
         [0, 0, 0, 0, 0, 0, 0, 0], //game aborted
-        [0, 0, 0, 0, 0, 0, 0, 0] //Tie
+        [0, 0, 0, 0, 0, 0, 0, 0]  //Tie
     ];
 
     this.isValidTransition = function(from, to) {

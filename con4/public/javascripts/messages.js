@@ -44,6 +44,10 @@
         data: null,
     };
 
+
+    /*
+    * Server to client: Two players have connected and the game should now start.
+    */
     exports.T_TWO_PLAYER = "TWO-PLAYER"
     exports.O_TWO_PLAYER = {
         type: exports.T_TWO_PLAYER,
