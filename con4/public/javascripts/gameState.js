@@ -30,7 +30,7 @@ function GameState(socket) {
         cell.className = color;
 
         const turnCell = document.getElementById("yourTurn");
-        turnCell.innerText = "Opponents turn";
+        turnCell.innerText = "Opponent's turn";
         this.turn = false;
 
         this.totalSeconds = Date.now()-this.currentTime;
@@ -228,11 +228,11 @@ function GameState(socket) {
             const turnCell = document.getElementById("yourTurn");
             state.turn = false;
             if (incomingMsg.data === "TIE") {
-                turnCell.innerText = "It's a TIE.";
+                turnCell.innerText = "It's a tie!";
             } else if (incomingMsg.data === state.playerType) {
-                turnCell.innerText = "Congrats you won!";
+                turnCell.innerText = "Congratulations! You won!";
             } else {
-                turnCell.innerText = "You lost :("
+                turnCell.innerText = "You lost! Better luck next time!"
             }
         }
 
