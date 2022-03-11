@@ -13,14 +13,6 @@ h1 {
     left: calc(50% - 200px);
 }
 
-#stats :active{
-    color:red;
-}
-
-h1:hover::before {
-    content: "You found an easter egg!";
-}
-
 button {
     background-color: var(--TUDBlue);
     color: white;

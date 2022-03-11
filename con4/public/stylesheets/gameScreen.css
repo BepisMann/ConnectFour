@@ -23,10 +23,6 @@
     animation-iteration-count: 3;
 }
 
-#yourTurn:hover::after {
-    content: "You found an easter egg!";
-}
-
 @keyframes redPieceDrop {
     0% {background-color: var(--TUDRed);}
     50% {background-color: #932928;}
