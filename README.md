@@ -10,7 +10,7 @@ This project is a fully functional online game following the rules of the well k
 
 | Name | Email | LinkedIn |
 |----------------|------------------------------|-------------------------------------------------------|
-| Vladimir Pechi | pechi.vladimir2002@gmail.com | https://www.linkedin.com/in/pechi-vladimir-125367177/ |
+| Vladimir Pechi | pechi.vladimir2002@gmail.com | https://www.linkedin.com/in/vladimir-pechi-125367177/ |
 | Noky Soekarman | noky.soekarman@gmail.com     | -                                                     |
 
 ## How to run project
